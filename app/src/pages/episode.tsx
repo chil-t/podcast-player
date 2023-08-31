@@ -96,7 +96,6 @@ function singleEpisodeByID(episodeID: string): Promise<any> {
 export async function getServerSideProps() {
     const searchResults = await searchPodcasts('alex hormozi');
     const id = searchResults.feeds[0].id;
-    const author = searchResults.feeds[0].author;
     const episodesResults = await episodesByFeedID(id);
     const episodeID = await episodesResults.items[0].id.toString();
     const specificEpisode = await singleEpisodeByID(episodeID);
@@ -114,6 +113,9 @@ export default function Episode(props) {
         <>
             <Link href="/">Home</Link>
             <br />
+            <audio controls>
+                <source src={props.specificEpisode.episode.enclosureUrl} type="audio/mpeg"></source>
+            </audio>
             <Image
                 src={props.specificEpisode.episode.image}
                 alt="Image"
