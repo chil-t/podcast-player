@@ -5,6 +5,7 @@ import * as crypto from 'crypto';
 import Image from 'next/image';
 
 type Episode = {
+    episode: any;
     title: string;
     author: string;
     audioSrc: string;
@@ -144,8 +145,10 @@ export const getServerSideProps: GetServerSideProps<{
         },
     };
 }
+
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
  
-export default function Episode(props) {
+export default function Episode(props: Props) {
     return (
         <>
             <Link href="/">Home</Link>
