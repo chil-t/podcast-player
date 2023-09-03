@@ -3,7 +3,41 @@ import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import axios, { AxiosRequestConfig } from 'axios';
 import * as crypto from 'crypto';
 import Image from 'next/image';
- 
+
+type Episode = {
+    title: string;
+    author: string;
+    audioSrc: string;
+    image: string;
+    description: string;
+};
+
+type SearchResults = {
+    feeds: [
+        {
+            id: string;
+            author: string;
+        }
+    ];
+};
+
+type EpisodeResults = {
+    items: [
+        {
+            id: string;
+        }
+    ];
+};
+
+type SpecificEpisode = {
+    episode: {
+        enclosureUrl: string;
+        image: string;
+        feedTitle: string;
+        title: string;
+        description: string;
+    };
+};
 interface AuthHeaders {
     'User-Agent': string;
     'X-Auth-Date': string;
@@ -50,7 +84,7 @@ function makeAuthHeaders(): ExtendedAxiosHeaders {
 
 const API_BASE_URL = 'https://api.podcastindex.org/api/1.0';
 
-function searchPodcasts(searchText: string): Promise<any> {
+function searchPodcasts(searchText: string): Promise<SearchResults> {
     const URL = `${API_BASE_URL}/search/byterm`;
     const headers: ExtendedAxiosHeaders = makeAuthHeaders();
     const query = {
@@ -72,7 +106,7 @@ function searchEpisodesByPerson(searchText: string): Promise<any> {
     return get(`${URL}?${new URLSearchParams(query)}`, { headers });
 }
 
-function episodesByFeedID(feedID: string): Promise<any> {
+function episodesByFeedID(feedID: string): Promise<EpisodeResults> {
     const URL = `${API_BASE_URL}/episodes/byfeedid`;
     const headers: ExtendedAxiosHeaders = makeAuthHeaders();
     const query = {
@@ -83,7 +117,7 @@ function episodesByFeedID(feedID: string): Promise<any> {
     return get(`${URL}?${new URLSearchParams(query)}`, { headers });
 }
 
-function singleEpisodeByID(episodeID: string): Promise<any> {
+function singleEpisodeByID(episodeID: string): Promise<Episode> {
     const URL = `${API_BASE_URL}/episodes/byid`;
     const headers: ExtendedAxiosHeaders = makeAuthHeaders();
     const query = {
@@ -93,7 +127,10 @@ function singleEpisodeByID(episodeID: string): Promise<any> {
     return get(`${URL}?${new URLSearchParams(query)}`, { headers });
 }
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps<{
+    specificEpisode: Episode;
+    searchResults: SearchResults;
+}> = async () => {
     const searchResults = await searchPodcasts('alex hormozi');
     const id = searchResults.feeds[0].id;
     const episodesResults = await episodesByFeedID(id);
