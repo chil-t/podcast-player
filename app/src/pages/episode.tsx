@@ -51,12 +51,6 @@ interface ExtendedAxiosHeaders extends AuthHeaders {
     [header: string]: AxiosHeaderValue;
 }
 
-// generic HTTP request helper(s)
-async function get<T = any>(url: string, options: AxiosRequestConfig): Promise<T> {
-  const response = await axios.get(url, options);
-  return response.data;
-}
-
 function sha1(text: string): string {
   const shasum = crypto.createHash('sha1');
   shasum.update(text);
@@ -64,128 +58,132 @@ function sha1(text: string): string {
   return shasum.digest('hex');
 }
 
+class APIWrapper {
+    private API_KEY: string;
+    private API_SECRET: string;
+    private API_BASE_URL = 'https://api.podcastindex.org/api/1.0';
 
-// podcast index-specific helpers
-function makeAuthHeaders(): ExtendedAxiosHeaders {
-  // API-specific authentication logic
-  const API_KEY = 'XRQBQ9FUEPQN2E7DQ6N5';
-  const API_SECRET = 'qfYMb2hsc3e6ekrJe7UPbGJyWCpkyTwBJ$YDxTsV';
+    constructor(apiKey: string, apiSecret: string) {
+        this.API_KEY = apiKey;
+        this.API_SECRET = apiSecret;
+    }
 
-  const authDate = String(Math.floor(Date.now() / 1000));
-  const authorization = sha1(API_KEY + API_SECRET + authDate);
+    // podcast index-specific helpers
+    private makeAuthHeaders(): ExtendedAxiosHeaders {
+        const authDate = String(Math.floor(Date.now() / 1000));
+        const authorziation = sha1(this.API_KEY + this.API_SECRET + authDate);
 
-  return {
-    // https://podcastindex-org.github.io/docs-api/#auth
-    'User-Agent': 'PodcastPlayer/1.0',
-    'X-Auth-Date': authDate,
-    'X-Auth-Key': API_KEY,
-    'Authorization': authorization
-  };
+        return {
+            // https://podcastindex-org.github.io/docs-api/#auth
+            'User-Agent': 'PodcastPlayer/1.0',
+            'X-Auth-Date': authDate,
+            'X-Auth-Key': this.API_KEY,
+            'Authorization': authorziation,
+        };
+    }
+
+    // generic HTTP request helper(s)
+    private async get<T = any>(url: string, options: AxiosRequestConfig): Promise<T> { 
+        const response = await axios.get(url, options);
+        return response.data;
+    }
+
+    public async searchPodcasts(searchText: string): Promise<SearchResults> {
+        const URL = `${this.API_BASE_URL}/search/byterm`;
+        const headers: ExtendedAxiosHeaders = this.makeAuthHeaders();
+        const query = {
+            q: searchText,
+            max: '1',
+        };
+    
+        return this.get(`${URL}?${new URLSearchParams(query)}`, { headers });
+    }
+
+    public async episodesByFeedID(feedID: string): Promise<EpisodeResults> {
+        const URL = `${this.API_BASE_URL}/episodes/byfeedid`;
+        const headers: ExtendedAxiosHeaders = this.makeAuthHeaders();
+        const query = {
+            id: feedID,
+            max: '3'
+        };
+
+        return this.get(`${URL}?${new URLSearchParams(query)}`, { headers });
+    }
+
+    public async specificEpisodeByID(episodeID: string): Promise<Episode> {
+        const URL = `${this.API_BASE_URL}/episodes/byid`;
+        const headers: ExtendedAxiosHeaders = this.makeAuthHeaders();
+        const query = {
+            id: episodeID,
+        };
+
+        return this.get(`${URL}?${new URLSearchParams(query)}`, { headers });
+    }
+
+    public async getEpisode(author: string): Promise<Episode>{
+        const searchResults = await this.searchPodcasts(author);
+        const id = searchResults.feeds[0].id;
+        const episodesResults = await this.episodesByFeedID(id);
+        const episodeID = episodesResults.items[0].id.toString();
+        const specificEpisode = await this.specificEpisodeByID(episodeID);
+    
+        return {
+            episode: specificEpisode.episode,
+            title: specificEpisode.episode.title,
+            author: searchResults.feeds[0].author,
+            audioSrc: specificEpisode.episode.enclosureUrl,
+            image: specificEpisode.episode.image,
+            description: specificEpisode.episode.description,
+        };
+    }
 }
 
-const API_BASE_URL = 'https://api.podcastindex.org/api/1.0';
+//function searchEpisodesByPerson(searchText: string): Promise<any> {
+    //const URL = `${API_BASE_URL}/search/byperson`;
+    //const headers: ExtendedAxiosHeaders = makeAuthHeaders();
+    //const query = {
+        //id: searchText,
+        //pretty: String(true)
+    //};
 
-function searchPodcasts(searchText: string): Promise<SearchResults> {
-    const URL = `${API_BASE_URL}/search/byterm`;
-    const headers: ExtendedAxiosHeaders = makeAuthHeaders();
-    const query = {
-        q: searchText,
-        max: '1'
-    };
+    //return get(`${URL}?${new URLSearchParams(query)}`, { headers });
+//}
 
-    return get(`${URL}?${new URLSearchParams(query)}`, { headers });
-}
-
-function searchEpisodesByPerson(searchText: string): Promise<any> {
-    const URL = `${API_BASE_URL}/search/byperson`;
-    const headers: ExtendedAxiosHeaders = makeAuthHeaders();
-    const query = {
-        id: searchText,
-        pretty: String(true)
-    };
-
-    return get(`${URL}?${new URLSearchParams(query)}`, { headers });
-}
-
-function episodesByFeedID(feedID: string): Promise<EpisodeResults> {
-    const URL = `${API_BASE_URL}/episodes/byfeedid`;
-    const headers: ExtendedAxiosHeaders = makeAuthHeaders();
-    const query = {
-        id: feedID,
-        max: '3'
-    };
-
-    return get(`${URL}?${new URLSearchParams(query)}`, { headers });
-}
-
-function singleEpisodeByID(episodeID: string): Promise<Episode> {
-    const URL = `${API_BASE_URL}/episodes/byid`;
-    const headers: ExtendedAxiosHeaders = makeAuthHeaders();
-    const query = {
-        id: episodeID
-    };
-
-    return get(`${URL}?${new URLSearchParams(query)}`, { headers });
-}
-
-export const getServerSideProps: GetServerSideProps<{
-    specificEpisode: Episode;
-    searchResults: SearchResults;
-}> = async () => {
-    const searchResults = await searchPodcasts('alex hormozi');
-    const id = searchResults.feeds[0].id;
-    const episodesResults = await episodesByFeedID(id);
-    const episodeID = await episodesResults.items[0].id.toString();
-    const specificEpisode = await singleEpisodeByID(episodeID);
+export async function getServerSideProps() {
+    // API-specific authentication logic
+    const apiWrapper = new APIWrapper('XRQBQ9FUEPQN2E7DQ6N5', 'qfYMb2hsc3e6ekrJe7UPbGJyWCpkyTwBJ$YDxTsV')
+    const specificEpisode = await apiWrapper.getEpisode('alex hormozi');
 
     return {
         props: {
             specificEpisode,
-            searchResults,
         },
     };
 }
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
  
-export default function Episode(props: Props) {
+export default function Episode({ specificEpisode }: { specificEpisode: Episode }) {
     return (
         <>
             <Link href="/">Home</Link>
             <br />
+            <Image src={specificEpisode.image} alt="Image" width={200} height={200} />
             <audio controls>
-                <source src={props.specificEpisode.episode.enclosureUrl} type="audio/mpeg"></source>
+                <source src={specificEpisode.audioSrc} type="audio/mpeg" />
             </audio>
-            <Image
-                src={props.specificEpisode.episode.image}
-                alt="Image"
-                width={200}
-                height={200}
-            />
-            <h1>
-                {props.specificEpisode.episode.feedTitle}
-            </h1>
-            <h1>
-                {props.specificEpisode.episode.title}
-            </h1>
-            <h3>
-                Author:
-            </h3>
+            <h1>{specificEpisode.title}</h1>
+            <h3>Author:</h3>
+            <p>{specificEpisode.author}</p>
+            <h3>Description:</h3>
             <p>
-                {props.searchResults.feeds[0].author}
-            </p>
-            <h3>
-                Description: 
-            </h3>
-            <p>
-                {props.specificEpisode.episode.description
+                {specificEpisode.description
                 .split('<p>')
                 .join('')
                 .split("</p>")
                 .join('')
                 }
             </p>
-
         </>
     );
 }
