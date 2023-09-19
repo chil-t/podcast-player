@@ -3,6 +3,7 @@ import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import axios, { AxiosRequestConfig } from 'axios';
 import * as crypto from 'crypto';
 import Image from 'next/image';
+export { APIWrapper };
 
 type Episode = {
     episode: any;
@@ -93,7 +94,6 @@ class APIWrapper {
         const headers: ExtendedAxiosHeaders = this.makeAuthHeaders();
         const query = {
             q: searchText,
-            max: '1',
         };
     
         return this.get(`${URL}?${new URLSearchParams(query)}`, { headers });
