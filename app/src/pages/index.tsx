@@ -39,14 +39,14 @@ type SearchResultsState = {
        }}
       />
 
-      {/* [ ] - Display a list of podcast channels 
+      {/* [x] - Display a list of podcast channels 
               - author name 
        */}
       {results && results.feeds && results.feeds.length > 0 ? (
         <ul>
           {results.feeds.map((feed) => (
             <li key={feed.id}>
-              {feed.author}
+              <Link href="/podcastID">{feed.author}</Link>
             </li>
           ))}
         </ul>
