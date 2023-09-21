@@ -23,10 +23,11 @@ type SearchResults = {
     ];
 };
 
-type EpisodeResults = {
+export type EpisodeResults = {
     items: [
         {
             id: string;
+            title: string;
         }
     ];
 };
@@ -104,7 +105,6 @@ class APIWrapper {
         const headers: ExtendedAxiosHeaders = this.makeAuthHeaders();
         const query = {
             id: feedID,
-            max: '3'
         };
 
         return this.get(`${URL}?${new URLSearchParams(query)}`, { headers });
