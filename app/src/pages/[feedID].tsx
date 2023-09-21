@@ -36,29 +36,3 @@ export default function FeedID() {
     );
   }
 }
-
-{/*
-type PodcastEpisodes = {
-  feeds: [
-    {
-      id: string;
-    }
-  ]
-}
-
-export const getServerSideProps = (async(context) => {
-  const apiWrapper = new APIWrapper('XRQBQ9FUEPQN2E7DQ6N5', 'qfYMb2hsc3e6ekrJe7UPbGJyWCpkyTwBJ$YDxTsV')
-  const podcastChannel = 
-  const feedsID = search
-  const episodes = await apiWrapper.episodesByFeedID('alex hormozi');
-  return { props: { episodes } }
-}) satisfies GetServerSideProps<{
-  repo: PodcastEpisodes
-}>
-
-export default function PodcastID({
-  episodes,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  return episodes.feeds.id
-}
-*/}
