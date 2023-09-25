@@ -122,7 +122,7 @@ class APIWrapper {
     }
 
     public async getEpisode(author: string): Promise<Episode>{
-    { /* const searchResults = await this.searchPodcasts(author); */}
+        const searchResults = await this.searchPodcasts(author);
         const id = searchResults.feeds[0].id;
         const episodesResults = await this.episodesByFeedID(id);
         const episodeID = episodesResults.items[0].id.toString();
