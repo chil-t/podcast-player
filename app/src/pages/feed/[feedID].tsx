@@ -32,7 +32,7 @@ export default function FeedID() {
         {data.items.map((item, index) => (
           <p>
             <Link href={``} key={index}>
-              {item.title}/
+              {item.title}
             </Link>
           </p>
         ))}
