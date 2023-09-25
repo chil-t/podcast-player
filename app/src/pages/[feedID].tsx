@@ -29,9 +29,13 @@ export default function FeedID() {
   if (router.query.feedID) {
     return (
       <>
-        {data.items.map((item, index) => 
-          <p key={index}>{item.title}</p>
-        )}
+        {data.items.map((item, index) => (
+          <p>
+            <Link href={``} key={index}>
+              {item.title}/
+            </Link>
+          </p>
+        ))}
       </>
     );
   }
