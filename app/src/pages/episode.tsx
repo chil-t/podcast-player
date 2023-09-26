@@ -33,7 +33,7 @@ export type EpisodeResults = {
     ];
 };
 
-type SpecificEpisode = {
+export type SpecificEpisode = {
     episode: {
         enclosureUrl: string;
         image: string;
