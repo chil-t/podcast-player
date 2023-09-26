@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useState } from 'react';
-import { APIWrapper } from './[episode]';
+import { APIWrapper } from './episode/[episode]';
 
 interface SearchState {
   searchTerm: string;

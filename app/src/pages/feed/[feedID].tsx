@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { EpisodeResults, APIWrapper } from '../[episode]'
+import { EpisodeResults, APIWrapper } from '../episode/[episode]'
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
