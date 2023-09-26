@@ -1,5 +1,5 @@
-import Link from 'next/Link'
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import Link from 'next/Link';
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import axios, { AxiosRequestConfig } from 'axios';
 import * as crypto from 'crypto';
 import Image from 'next/image';

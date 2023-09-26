@@ -46,7 +46,7 @@ type SearchResultsState = {
         <ul>
           {results.feeds.map((feed) => (
             <li key={feed.id}>
-              <Link href={`/${feed.id}`}>{feed.author}</Link>
+              <Link href={`/feed/${feed.id}`}>{feed.author}</Link>
             </li>
           ))}
         </ul>
