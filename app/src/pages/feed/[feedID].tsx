@@ -28,16 +28,16 @@ export default function FeedID() {
   if (!data) return <p>No profile data</p>
 
   if (feedID) {
+    {data.items.map((item, index) => {
+    const episodeID = item.id;
     return (
       <>
-        {data.items.map((item, index) => (
-          <p>
+          <p key={index}>
             <Link href={`/feed/${feedID}/episode/${episodeID}`} key={index}>
               {item.title}
             </Link>
           </p>
-        ))}
       </>
     );
-  }
+  })}}
 }
