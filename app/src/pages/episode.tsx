@@ -35,12 +35,15 @@ export type EpisodeResults = {
 
 export type SpecificEpisode = {
     episode: {
-        enclosureUrl: string;
-        image: string;
-        feedTitle: string;
-        title: string;
-        description: string;
-    };
+    enclosureUrl: string;
+    enclosureType: string;
+    image: string;
+    feedTitle: string;
+    title: string;
+    description: string;
+    author: string;
+    datePublishedPretty: string;
+    }
 };
 interface AuthHeaders {
     'User-Agent': string;
@@ -117,7 +120,7 @@ class APIWrapper {
         const query = {
             id: episodeID,
         };
-
+          
         return this.get(`${URL}?${new URLSearchParams(query)}`, { headers });
     }
 
@@ -125,8 +128,11 @@ class APIWrapper {
         const searchResults = await this.searchPodcasts(author);
         const id = searchResults.feeds[0].id;
         const episodesResults = await this.episodesByFeedID(id);
+        // ^ searches by feedID to get the list of episodes 
         const episodeID = episodesResults.items[0].id.toString();
+        // ^ choosen an id from the list of episodes
         const specificEpisode = await this.specificEpisodeByID(episodeID);
+        // ^ chooses episode based on episodeID
     
         return {
             episode: specificEpisode.episode,
