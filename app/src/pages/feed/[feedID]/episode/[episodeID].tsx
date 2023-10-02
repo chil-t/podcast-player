@@ -34,7 +34,7 @@ export default function Episode() {
         <source src={specificEpisode.episode.enclosureUrl} type={specificEpisode.episode.enclosureType} />
       </audio>
       <h3>{specificEpisode.episode.title}</h3>
-      <h3>Date: <span style={{ fontWeight: 'normal' }}>
+      <h3>Upload Date: <span style={{ fontWeight: 'normal' }}>
           {specificEpisode.episode.datePublishedPretty}
         </span>
       </h3>
