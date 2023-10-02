@@ -39,9 +39,6 @@ type SearchResultsState = {
        }}
       />
 
-      {/* [x] - Display a list of podcast channels 
-              - author name 
-       */}
       {results && results.feeds && results.feeds.length > 0 ? (
         <ul>
           {results.feeds.map((feed) => (
