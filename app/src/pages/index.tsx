@@ -21,8 +21,6 @@ type SearchResultsState = {
 
   return(
     <>
-      <Link href="/episode">Podcast Player</Link>
-      <br />
       <input type="search"
        id="search-podcast" 
        name="q"
