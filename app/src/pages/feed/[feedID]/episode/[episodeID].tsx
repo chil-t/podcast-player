@@ -1,6 +1,7 @@
 import { SpecificEpisode, APIWrapper } from '../../../episode';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 
 export default function Episode() {
@@ -26,9 +27,10 @@ export default function Episode() {
 
   if (!specificEpisode) return null;
 
-
   return (
     <>
+      <Link href="/">Home</Link>
+      <br />
       <Image src={specificEpisode.episode.image} alt="Image" width={200} height={200} />
       <audio controls>
         <source src={specificEpisode.episode.enclosureUrl} type={specificEpisode.episode.enclosureType} />
