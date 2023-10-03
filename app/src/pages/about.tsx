@@ -12,6 +12,10 @@ export default function About() {
     <p>React-Redux: Allowed seamless state management within React components, utilizing hooks, and the Redux store for consistent state handling.</p>
     <p>NextJS: Facilitated server-side rendering, boosting site performance and SEO.</p>
     <p>Axios: Enhanced API calls with ease, optimizing data-fetching processes.</p>
+
+    <h2>About Me</h2> 
+    <p>I'm Tom, a dedicated web developer with a keen eye for design and a passion for creating efficient, user-friendly applications. My goal is to secure a front-end development position where I can further harness my skills and contribute to meaningful projects.</p>
+    <p>During the development of this site, I delved deeper into the intricacies of APIs, refining my techniques in interacting with, testing, and seamlessly integrating them. I navigated various challenges, from UI/UX decisions to intricate code debugging, which further solidified my love for this craft and my determination to excel in the front-end domain.</p>
   </>
   )
 }
