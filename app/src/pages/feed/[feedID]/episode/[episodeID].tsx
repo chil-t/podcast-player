@@ -35,12 +35,12 @@ export default function Episode() {
       <audio controls>
         <source src={specificEpisode.episode.enclosureUrl} type={specificEpisode.episode.enclosureType} />
       </audio>
-      <h3>{specificEpisode.episode.title}</h3>
-      <h3>Upload Date: <span style={{ fontWeight: 'normal' }}>
+      <h2>{specificEpisode.episode.title}</h2>
+      <h4>Upload Date: <span style={{ fontWeight: 'normal' }}>
           {specificEpisode.episode.datePublishedPretty}
         </span>
-      </h3>
-      <h3>Description:</h3>
+      </h4>
+      <h4>Description:</h4>
       <p>
       {specificEpisode.episode.description
         .split('<p>')
