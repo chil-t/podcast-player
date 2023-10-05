@@ -19,8 +19,12 @@ export default function About() {
 
     <h4>Connect with me:</h4>
     <ul>
-      <li>LinkedIn</li>
-      <li>Github</li>
+      <li>
+        <a href="https://www.linkedin.com/in/tom-childress/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </li>
+      <li>
+        <a href="https://github.com/chil-t" target="_blank" rel="noopener noreferrer">Github</a>
+      </li>
     </ul>
   </>
   )
