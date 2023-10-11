@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { APIWrapper } from './episode';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Podcast Player',
+  description: 'Listen to any recently uploaded podcast episode.',
+}
 
 interface SearchState {
   searchTerm: string;
