@@ -27,7 +27,7 @@ type SearchResultsState = {
   
   return (
     <>
-      <Link href="/about">About</Link>
+      {/* <Link href="/about">About</Link> */}
       <br />
       <input type="search"
        id="search-podcast" 
