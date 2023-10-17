@@ -158,7 +158,7 @@ class APIWrapper {
 
 export async function getServerSideProps() {
     // API-specific authentication logic
-    const apiWrapper = new APIWrapper('XRQBQ9FUEPQN2E7DQ6N5', 'qfYMb2hsc3e6ekrJe7UPbGJyWCpkyTwBJ$YDxTsV')
+    const apiWrapper = new APIWrapper('XRQBQ9FUEPQN2E7DQ6N5', 'qfYMb2hsc3e6ekrJe7UPbGJyWCpkyTwBJ$YDxTsV');
     const specificEpisode = await apiWrapper.getEpisode('alex hormozi');
 
     return {

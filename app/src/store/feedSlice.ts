@@ -5,12 +5,14 @@ interface FeedState {
   data: EpisodeResults | null;
   isLoading: boolean;
   feedID: string;
+  author: string | null;
 }
 
 const initialState: FeedState = {
   data: null,
   isLoading: true,
   feedID: '',
+  author: null,
 }
 
 export const feedSlice = createSlice({
@@ -26,8 +28,11 @@ export const feedSlice = createSlice({
     storeFeedID: (state, action: PayloadAction<string>) => {
       state.feedID = action.payload;
     },
+    setAuthor: (state, action: PayloadAction<string | null>) => {
+      state.author = action.payload;
+    },
   },
 });
 
-export const { setData, setLoading, storeFeedID } = feedSlice.actions;
+export const { setData, setLoading, storeFeedID, setAuthor } = feedSlice.actions;
 export default feedSlice.reducer;

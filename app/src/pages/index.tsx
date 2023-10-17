@@ -24,8 +24,8 @@ type SearchResultsState = {
 }
   const [searchState, setSearchState] = useState<SearchState>({ searchTerm: "Search Term" });
   const [results, setResults] = useState<SearchResultsState | null>(null);
-
-  return(
+  
+  return (
     <>
       <Link href="/about">About</Link>
       <br />
