@@ -32,7 +32,7 @@ type SearchResultsState = {
       <input type="search"
        id="search-podcast" 
        name="q"
-       placeholder="Search Podcast" 
+       placeholder="Search Podcast Author" 
        onChange={(event) => {
          setSearchState({ searchTerm: event.target.value });
        }}
