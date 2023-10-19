@@ -26,7 +26,7 @@ type SearchResultsState = {
   const [results, setResults] = useState<SearchResultsState | null>(null);
   
   return <>
-    <Link href="/about">About</Link> 
+    <Link href="/about" className="bg-blue-500 text-white px-4 py-2 rounded">About</Link> 
     <br />
     <input type="search"
      id="search-podcast" 
