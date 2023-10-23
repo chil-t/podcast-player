@@ -15,7 +15,7 @@ export default function About() {
     <h3>Technologies used:</h3>
     <p>TypeScript: Provided type-safe coding, ensuring robustness and improved developer experience.</p>
     <p>React: Enabled component-based architecture, streamlining UI development.</p>
-    <p>React-Redux: Allowed seamless state management within React components, utilizing hooks, and the Redux store for consistent state handling.</p>
+    <p>Redux: Allowed seamless state management within React components, utilizing hooks, and the Redux store for consistent state handling.</p>
     <p>NextJS: Facilitated server-side rendering, boosting site performance and SEO.</p>
     <p>Axios: Enhanced API calls with ease, optimizing data-fetching processes.</p>
 
@@ -29,7 +29,7 @@ export default function About() {
         <a href="https://www.linkedin.com/in/tom-childress/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </li>
       <li>
-        <a href="https://github.com/chil-t" target="_blank" rel="noopener noreferrer">Github</a>
+        <a href="https://github.com/chil-t/podcast-player/tree/main" target="_blank" rel="noopener noreferrer">Github</a>
       </li>
     </ul>
   </>
