@@ -74,7 +74,7 @@ export default function FeedID() {
         {data.items.map((item, index) => {
           return (
             <p key={index}>
-              <Link href={`/feed/${feedID}/episode/${item.id}`}>
+              <Link href={`/feed/${feedID}/episode/${item.id}`} legacyBehavior>
                 {item.title}
               </Link>
             </p>

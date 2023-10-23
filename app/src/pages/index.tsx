@@ -25,37 +25,35 @@ type SearchResultsState = {
   const [searchState, setSearchState] = useState<SearchState>({ searchTerm: "Search Term" });
   const [results, setResults] = useState<SearchResultsState | null>(null);
   
-  return (
-    <>
-      <Link href="/about">About</Link> 
-      <br />
-      <input type="search"
-       id="search-podcast" 
-       name="q"
-       placeholder="Search Podcast Author" 
-       onChange={(event) => {
-         setSearchState({ searchTerm: event.target.value });
-       }}
-       onKeyDown={async (event) => {
-          if (event.key === 'Enter') {
-            const api = new APIWrapper('XRQBQ9FUEPQN2E7DQ6N5', 'qfYMb2hsc3e6ekrJe7UPbGJyWCpkyTwBJ$YDxTsV')
-            const searchResults = await api.searchPodcasts(searchState.searchTerm);
-            setResults(searchResults);
-          } 
-       }}
-      />
+  return <>
+    <Link href="/about" className="bg-blue-500 text-white px-4 py-2 rounded">About</Link> 
+    <br />
+    <input type="search"
+     id="search-podcast" 
+     name="q"
+     placeholder="Search Podcast Author" 
+     onChange={(event) => {
+       setSearchState({ searchTerm: event.target.value });
+     }}
+     onKeyDown={async (event) => {
+        if (event.key === 'Enter') {
+          const api = new APIWrapper('XRQBQ9FUEPQN2E7DQ6N5', 'qfYMb2hsc3e6ekrJe7UPbGJyWCpkyTwBJ$YDxTsV')
+          const searchResults = await api.searchPodcasts(searchState.searchTerm);
+          setResults(searchResults);
+        } 
+     }}
+    />
 
-      {results && results.feeds && results.feeds.length > 0 ? (
-        <ul>
-          {results.feeds.map((feed) => (
-            <li key={feed.id}>
-              <Link href={`/feed/${feed.id}`}>{feed.author}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No results found.</p>
-      )}
-    </>
-  );
+    {results && results.feeds && results.feeds.length > 0 ? (
+      <ul>
+        {results.feeds.map((feed) => (
+          <li key={feed.id}>
+            <Link href={`/feed/${feed.id}`} legacyBehavior>{feed.author}</Link>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No results found.</p>
+    )}
+  </>;
 }
